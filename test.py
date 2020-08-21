@@ -26,10 +26,10 @@ sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, 'mod')))
 from dqn_family import get_agent
 from env_wrappers import wrap_env
 
-GPU = -1
+GPU = 0
 
-ARCH = 'distributed_dueling'
-NOISY_NET_SIGMA = 0.5
+ARCH = 'dueling'
+NOISY_NET_SIGMA = None
 FINAL_EPSILON = 0.01
 FINAL_EXPLORATION_FRAMES = 10 ** 6
 LR = 0.0000625
@@ -38,7 +38,7 @@ PRIORITIZED = True
 UPDATE_INTERVAL = 4
 REPLAY_CAPACITY = 300000
 NUM_STEP_RETURN = 10
-AGENT_TYPE = 'CategoricalDoubleDQN'
+AGENT_TYPE = 'DoubleDQN'
 GAMMA = 0.99
 REPLAY_START_SIZE = 5000
 TARGET_UPDATE_INTERVAL = 10000
@@ -136,7 +136,7 @@ class MineRLAgentBase(abc.ABC):
 #######################
 # YOUR CODE GOES HERE #
 #######################
-class MineRLRainbowBaselineAgent(MineRLAgentBase):
+class MineRLPDDDQNBaselineAgent(MineRLAgentBase):
     def __init__(self, env):
         self.env = env
 
@@ -166,7 +166,7 @@ class MineRLRainbowBaselineAgent(MineRLAgentBase):
 #####################################################################
 # IMPORTANT: SET THIS VARIABLE WITH THE AGENT CLASS YOU ARE USING   #
 ######################################################################
-AGENT_TO_TEST = MineRLRainbowBaselineAgent # MineRLMatrixAgent, MineRLRandomAgent, YourAgentHere
+AGENT_TO_TEST = MineRLPDDDQNBaselineAgent # MineRLMatrixAgent, MineRLRandomAgent, YourAgentHere
 
 
 
