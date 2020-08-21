@@ -1,6 +1,6 @@
-# NeurIPS 2020: MineRL Competition Rainbow Baseline with PFRL
+# NeurIPS 2020: MineRL Competition Prioritized Dueling Double DQN (PDDDQN) Baseline with PFRL
 
-This repository is a **Rainbow baseline submission example with [PFRL](https://github.com/pfnet/pfrl)**,
+This repository is a **Prioritized Dueling Double DQN baseline submission example with [PFRL](https://github.com/pfnet/pfrl)**,
 originated from [the main MineRL Competition submission template and starter kit](https://github.com/minerllabs/competition_submission_template).
 
 For detailed & latest documentation about the competition/template, see the original template repository.
@@ -13,8 +13,10 @@ Please ignore `train.py`, which will be used in Round 2.
 `train/` directory contains baseline agent's model weight files trained on `MineRLObtainDiamondDenseVectorObf-v0`.
 
 ## List of current baselines
-- [Rainbow](https://github.com/keisuke-nakata/minerl2020_submission) <-- We are here
+- [Rainbow](https://github.com/keisuke-nakata/minerl2020_submission) 
 - [SQIL](https://github.com/s-shiroshita/minerl2020_sqil_submission)
+- [PDDDQN](https://github.com/ummavi/minerl2020_submission) <-- We are here
+- [DQFD](https://github.com/marioyc/minerl2020_dqfd_submission)
 
 # How to Submit
 
@@ -37,11 +39,11 @@ If everything works out correctly, you should be able to see your score on the
 This baseline consists of two main steps:
 
 1. [Apply K-means clustering](https://minerl.io/docs/tutorials/k-means.html) for the action space with the demonstration dataset.
-2. Apply Rainbow algorithm on the discretized action space.
+2. Apply PDDDQN algorithm on the discretized action space.
 
 Each of steps utilizes existing libraries.  
 K-means in the step 1 is from [scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans),
-and Rainbow in the spte 2 is from [PFRL](https://github.com/pfnet/pfrl),
+and PDDDQN in the step 2 is from [PFRL](https://github.com/pfnet/pfrl),
 which is a Pytorch-based RL library.
 
 
