@@ -26,7 +26,7 @@ sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, 'mod')))
 from dqn_family import get_agent
 from env_wrappers import wrap_env
 
-GPU = 0
+GPU = None
 
 ARCH = 'dueling'
 NOISY_NET_SIGMA = None

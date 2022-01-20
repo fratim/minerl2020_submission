@@ -47,7 +47,7 @@ def main():
     parser.add_argument('--outdir', type=str, default='results',
                         help='Directory path to save output files. If it does not exist, it will be created.')
     parser.add_argument('--seed', type=int, default=0, help='Random seed [0, 2 ** 31)')
-    parser.add_argument('--gpu', type=int, default=0, help='GPU to use, set to -1 if no GPU.')
+    parser.add_argument('--gpu', type=int, default=None, help='GPU to use, set to -1 if no GPU.')
     parser.add_argument('--demo', action='store_true', default=False)
     parser.add_argument('--load', type=str, default=None)
     parser.add_argument('--logging-level', type=int, default=20, help='Logging level. 10:DEBUG, 20:INFO etc.')
@@ -187,6 +187,8 @@ def dqn_family(
         kmeans_n_clusters,
 ):
     os.environ['MALMO_MINECRAFT_OUTPUT_LOGDIR'] = outdir
+
+    os.environ["KMEANS_CACHE"] = '/Users/tim/Code/minerl2020_submission/train/'
 
     # Set a random seed used in PFRL.
     pfrl.utils.set_random_seed(seed)
