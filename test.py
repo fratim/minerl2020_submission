@@ -60,7 +60,7 @@ MINERL_MAX_EVALUATION_EPISODES = int(os.getenv('MINERL_MAX_EVALUATION_EPISODES',
 
 # Parallel testing/inference, **you can override** below value based on compute
 # requirements, etc to save OOM in this phase.
-EVALUATION_THREAD_COUNT = int(os.getenv('EPISODES_EVALUATION_THREAD_COUNT', 2))
+EVALUATION_THREAD_COUNT = int(os.getenv('EPISODES_EVALUATION_THREAD_COUNT', 1))
 
 class EpisodeDone(Exception):
     pass
@@ -161,6 +161,9 @@ class MineRLPDDDQNBaselineAgent(MineRLAgentBase):
             while True:
                 a = self.agent.act(obs)
                 obs, r, done, info = single_episode_env.step(a)
+                single_episode_env.env.env.env.env.env.env.env.env.env.render(mode="human")
+
+
 
 
 #####################################################################
@@ -207,13 +210,14 @@ def main():
                 print("[{}] Episode complete".format(i))
                 pass
 
-    evaluator_threads = [threading.Thread(target=evaluate, args=(i, envs[i])) for i in range(EVALUATION_THREAD_COUNT)]
-    for thread in evaluator_threads:
-        thread.start()
-
-    # wait fo the evaluation to finish
-    for thread in evaluator_threads:
-        thread.join()
+    evaluate(0, envs[0])
+    # evaluator_threads = [threading.Thread(target=evaluate, args=(i, envs[i])) for i in range(EVALUATION_THREAD_COUNT)]
+    # for thread in evaluator_threads:
+    #     thread.start()
+    #
+    # # wait fo the evaluation to finish
+    # for thread in evaluator_threads:
+    #     thread.join()
 
 
 if __name__ == "__main__":

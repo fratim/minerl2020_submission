@@ -133,7 +133,7 @@ class ObtainPoVWrapper(gym.ObservationWrapper):
     def __init__(self, env):
         super().__init__(env)
 
-        self.observation_space = self.env.observation_space.spaces['pov']
+        self.observation_space = self.env.observation_space["agent_0"].spaces['pov']
 
     def observation(self, observation):
         return observation['pov']

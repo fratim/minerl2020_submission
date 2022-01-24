@@ -188,7 +188,7 @@ def dqn_family(
 ):
     os.environ['MALMO_MINECRAFT_OUTPUT_LOGDIR'] = outdir
 
-    os.environ["KMEANS_CACHE"] = '/Users/tim/Code/minerl2020_submission/train/'
+    os.environ["KMEANS_CACHE"] = './train/'
 
     # Set a random seed used in PFRL.
     pfrl.utils.set_random_seed(seed)
