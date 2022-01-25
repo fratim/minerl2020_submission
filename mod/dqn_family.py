@@ -9,6 +9,8 @@ import gym
 
 import pfrl
 
+from minerl.herobraine.wrappers.assisst_agent_emulation_wrapper import AssistWrapper
+from gym.wrappers.time_limit import TimeLimit
 
 # local modules
 import sys
@@ -39,6 +41,8 @@ def main():
         'MineRLObtainIronPickaxeVectorObf-v0', 'MineRLObtainIronPickaxeDenseVectorObf-v0',
         # for debugging
         'MineRLNavigateDenseFixed-v0', 'MineRLObtainTest-v0',
+        # new environments for assist scenarios
+        'MineRLObtainMASingleVectorObf-v0'
     ]
     parser.add_argument('--env', type=str, choices=env_choices, required=True,
                         help='MineRL environment identifier.')
@@ -216,7 +220,12 @@ def dqn_family(
             action_choices=kmeans.cluster_centers_)
         return wrapped_env
     logger.info('The first `gym.make(MineRL*)` may take several minutes. Be patient!')
+
     core_env = gym.make(env_id)
+
+    core_env = AssistWrapper(core_env.env)
+    core_env = TimeLimit(core_env, max_episode_steps=core_env.spec.max_episode_steps)
+
     # training env
     env = wrap_env_partial(env=core_env, test=False)
     # env.seed(int(train_seed))  # TODO: not supported yet
@@ -259,7 +268,7 @@ def dqn_family(
         pfrl.experiments.train_agent_with_evaluation(
             agent=agent, env=env, steps=steps,
             eval_n_steps=None, eval_n_episodes=eval_n_runs, eval_interval=eval_interval,
-            outdir=outdir, eval_env=eval_env, save_best_so_far_agent=True,
+            outdir=outdir, eval_env=eval_env, save_best_so_far_agent=True, use_tensorboard=True
         )
 
     env.close()
