@@ -236,7 +236,7 @@ def dqn_family(
     # calculate corresponding `steps` and `eval_interval` according to frameskip
     # 8,000,000 frames = 1333 episodes if we count an episode as 6000 frames,
     # 8,000,000 frames = 1000 episodes if we count an episode as 8000 frames.
-    maximum_frames = 8000000
+    maximum_frames = 800000000
     if frame_skip is None:
         steps = maximum_frames
         eval_interval = 6000 * 100  # (approx.) every 100 episode (counts "1 episode = 6000 steps")
