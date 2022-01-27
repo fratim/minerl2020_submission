@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 import joblib
 import minerl
+import gym
 
 logger = getLogger(__name__)
 
@@ -34,12 +35,24 @@ def _do_kmeans(env_id, n_clusters, random_state):
     logger.debug(f'loading data...')
     dat = minerl.data.make(env_id)
     act_vectors = []
+
+    i, net_reward, done, env = 0, 0, False, gym.make('MineRLObtainMASingleVectorObf-v0')
+
+    assert "Obf" in env_id
+
     for _, act, _, _, _ in tqdm.tqdm(dat.batch_iter(batch_size=16, seq_len=32, num_epochs=1, preload_buffer_size=32, seed=random_state)):
         act_vectors.append(act['vector'])
+
     acts = np.concatenate(act_vectors).reshape(-1, 64)
+
+    action_vectors = np.zeros((acts.shape[0], 49))
+
+    for row in range(acts.shape[0]):
+        action_vectors[row, :] = np.clip(env.task.ac_dec(acts[row, :]), 0, 1)
+
     logger.debug(f'loading data... done.')
     logger.debug(f'executing keamns...')
-    kmeans = KMeans(n_clusters=n_clusters, random_state=random_state).fit(acts)
+    kmeans = KMeans(n_clusters=n_clusters, random_state=random_state).fit(action_vectors)
     logger.debug(f'executing keamns... done.')
     return kmeans
 
