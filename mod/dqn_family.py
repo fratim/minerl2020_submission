@@ -223,8 +223,10 @@ def dqn_family(
 
     core_env = gym.make(env_id)
 
-    core_env = AssistWrapper(core_env.env)
-    core_env = TimeLimit(core_env, max_episode_steps=core_env.spec.max_episode_steps)
+    if "ObtainMA" in env_id:
+        print("Using AssistWrapper!")
+        core_env = AssistWrapper(core_env.env)
+        core_env = TimeLimit(core_env, max_episode_steps=core_env.spec.max_episode_steps)
 
     # training env
     env = wrap_env_partial(env=core_env, test=False)
