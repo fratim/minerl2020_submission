@@ -1,0 +1,3 @@
+[submodule "pfrl"]
+	path = pfrl
+	url = https://github.com/fratim/pfrl.git
