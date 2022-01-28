@@ -51,11 +51,8 @@ def main():
 
     For the detail of the options of `dqn_family_main` called below, see "README#How to Train Baseline Agent on you own" section.
     """
+
     dqn_family_main()
-
-    # Training 100% Completed
-    aicrowd_helper.register_progress(1)
-
 
 if __name__ == "__main__":
     main()

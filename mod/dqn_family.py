@@ -12,6 +12,8 @@ import pfrl
 from minerl.herobraine.wrappers.assisst_agent_emulation_wrapper import AssistWrapper
 from gym.wrappers.time_limit import TimeLimit
 
+import time
+
 # local modules
 import sys
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir)))
@@ -118,15 +120,18 @@ def main():
 
     utils.log_versions()
 
-    try:
-        dqn_family(
+    train_iteration = 0
+    info = {"save_agent_dir": args.load, "steps": 0, "outdir": args.outdir+f"_it{train_iteration}" }
+    while True:
+
+        info = dqn_family(
             # meta setttings
             env_id=args.env,
-            outdir=args.outdir,
+            outdir=info["outdir"],
             seed=args.seed,
             gpu=args.gpu,
             demo=args.demo,
-            load=args.load,
+            load=info["save_agent_dir"],
             eval_n_runs=args.eval_n_runs,
             monitor=args.monitor,
             # hyper params
@@ -151,10 +156,15 @@ def main():
             prioritized=args.prioritized,
             target_update_interval=args.target_update_interval,
             kmeans_n_clusters=args.kmeans_n_clusters,
+            step_offset=info["steps"]
         )
-    except:  # noqa
-        logger.exception('execution failed.')
-        raise
+
+        if info["success"]:
+            break
+
+        train_iteration += 1
+        info["outdir"] = args.outdir + f"_it{train_iteration}"
+
 
 
 def dqn_family(
@@ -189,6 +199,7 @@ def dqn_family(
         prioritized,
         target_update_interval,
         kmeans_n_clusters,
+        step_offset
 ):
     os.environ['MALMO_MINECRAFT_OUTPUT_LOGDIR'] = outdir
 
@@ -263,19 +274,25 @@ def dqn_family(
 
     # experiment
     if demo:
+        raise NotImplementedError
         eval_stats = pfrl.experiments.eval_performance(env=eval_env, agent=agent, n_steps=None, n_episodes=eval_n_runs)
         logger.info('n_runs: {} mean: {} median: {} stdev {}'.format(
             eval_n_runs, eval_stats['mean'], eval_stats['median'], eval_stats['stdev']))
     else:
-        pfrl.experiments.train_agent_with_evaluation(
-            agent=agent, env=env, steps=steps,
-            eval_n_steps=None, eval_n_episodes=eval_n_runs, eval_interval=eval_interval,
-            outdir=outdir, eval_env=eval_env, save_best_so_far_agent=True, use_tensorboard=True
+        info = pfrl.experiments.train_agent_with_evaluation(
+                agent=agent, env=env, steps=steps,
+                eval_n_steps=None, eval_n_episodes=eval_n_runs, eval_interval=eval_interval,
+                outdir=outdir, eval_env=eval_env, save_best_so_far_agent=True, use_tensorboard=True, step_offset=step_offset
         )
 
-    env.close()
-    eval_env.close()
+    try:
+        env.close()
+        eval_env.close()
+        time.sleep(10)
+    except:
+        print("unable to close environments")
 
+    return info
 
 def parse_agent(agent):
     return {'DQN': pfrl.agents.DQN,
