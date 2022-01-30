@@ -18,7 +18,7 @@ class _KMeansCacheNotFound(FileNotFoundError):
 def cached_kmeans(cache_dir, env_id, n_clusters, random_state):
     if cache_dir is None:  # ignore cache
         logger.info('Load dataset & do kmeans')
-        kmeans = _do_kmeans(env_id=env_id, n_clusters=n_clusters, random_state=random_state)
+        kmeans = _do_kmeans_org(env_id=env_id, n_clusters=n_clusters, random_state=random_state)
     else:
         filepath = os.path.join(cache_dir, env_id, f'n_clusters_{n_clusters}', f'random_state_{random_state}', 'kmeans.joblib')
         try:
@@ -26,10 +26,22 @@ def cached_kmeans(cache_dir, env_id, n_clusters, random_state):
             logger.info('found kmeans cache')
         except _KMeansCacheNotFound:
             logger.info('kmeans cache not found. Load dataset & do kmeans & save result as cache')
-            kmeans = _do_kmeans(env_id=env_id, n_clusters=n_clusters, random_state=random_state)
+            kmeans = _do_kmeans_org(env_id=env_id, n_clusters=n_clusters, random_state=random_state)
             _save_kmeans_result_cache(kmeans, filepath)
     return kmeans
 
+def _do_kmeans_org(env_id, n_clusters, random_state):
+    logger.debug(f'loading data...')
+    dat = minerl.data.make(env_id)
+    act_vectors = []
+    for _, act, _, _, _ in tqdm.tqdm(dat.batch_iter(batch_size=16, seq_len=32, num_epochs=1, preload_buffer_size=32, seed=random_state)):
+        act_vectors.append(act['vector'])
+    acts = np.concatenate(act_vectors).reshape(-1, 64)
+    logger.debug(f'loading data... done.')
+    logger.debug(f'executing keamns...')
+    kmeans = KMeans(n_clusters=n_clusters, random_state=random_state).fit(acts)
+    logger.debug(f'executing keamns... done.')
+    return
 
 def _do_kmeans(env_id, n_clusters, random_state):
     logger.debug(f'loading data...')
