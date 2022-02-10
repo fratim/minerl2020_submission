@@ -3,4 +3,4 @@
 	url = https://github.com/fratim/pfrl.git
 [submodule "minerl_env"]
 	path = minerl_env
-	ul = https://github.com/fratim/minerl.git
+	url = https://github.com/fratim/minerl.git
