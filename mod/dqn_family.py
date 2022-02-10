@@ -104,6 +104,12 @@ def main():
 
     # K-means related settings
     parser.add_argument('--kmeans-n-clusters', type=int, default=30, help='#clusters for K-means')
+    
+    # Initial Step Offset (useful for restarting trainings)
+    parser.add_argument('--step-offset', type=int, default=0, help='#initial step offset')
+
+    # Iteration Offset (useful for restarting trainings)
+    parser.add_argument('--iteration', type=int, default=0, help='#iteration to start at')
 
     args = parser.parse_args()
 
@@ -120,8 +126,8 @@ def main():
 
     utils.log_versions()
 
-    train_iteration = 0
-    info = {"save_agent_dir": args.load, "steps": 0, "outdir": args.outdir+f"_it{train_iteration}" }
+    train_iteration = args.iteration
+    info = {"save_agent_dir": args.load, "steps": args.step_offset, "outdir": args.outdir+f"_it{train_iteration}" }
     while True:
 
         info = dqn_family(
