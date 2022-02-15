@@ -9,10 +9,13 @@ import gym
 
 import pfrl
 
+import copy
+
 from minerl.herobraine.wrappers.assisst_agent_emulation_wrapper import AssistWrapper
 from gym.wrappers.time_limit import TimeLimit
 
 import time
+import wandb
 
 # local modules
 import sys
@@ -70,6 +73,7 @@ def main():
 
     # update rule settings
     parser.add_argument('--update-interval', type=int, default=4, help='Frequency (in timesteps) of network updates.')
+    parser.add_argument('--batch-size', type=int, default=32, help='Size of Minibatch.')
     parser.add_argument('--frame-skip', type=int, default=4, help='Number of frames skipped (None for disable).')
     parser.add_argument('--gamma', type=float, default=0.99, help='Discount rate.')
     parser.add_argument('--no-clip-delta', dest='clip_delta', action='store_false')
@@ -113,7 +117,11 @@ def main():
 
     args = parser.parse_args()
 
+    runname = args.outdir.split("/")[-1]
+    output_dir_base = copy.deepcopy(args.outdir)
+
     args.outdir = pfrl.experiments.prepare_output_dir(args, args.outdir)
+    wandb.init(project="vectorized", name=runname, entity="frtim", dir=output_dir_base, sync_tensorboard=True)
 
     log_format = '%(levelname)-8s - %(asctime)s - [%(name)s %(funcName)s %(lineno)d] %(message)s'
     logging.basicConfig(filename=os.path.join(args.outdir, 'log.txt'), format=log_format, level=args.logging_level)
@@ -162,7 +170,8 @@ def main():
             prioritized=args.prioritized,
             target_update_interval=args.target_update_interval,
             kmeans_n_clusters=args.kmeans_n_clusters,
-            step_offset=info["steps"]
+            step_offset=info["steps"],
+            batch_size=args.batch_size
         )
 
         if info["success"]:
@@ -205,7 +214,8 @@ def dqn_family(
         prioritized,
         target_update_interval,
         kmeans_n_clusters,
-        step_offset
+        step_offset,
+        batch_size
 ):
     os.environ['MALMO_MINECRAFT_OUTPUT_LOGDIR'] = outdir
 
@@ -255,7 +265,7 @@ def dqn_family(
     # calculate corresponding `steps` and `eval_interval` according to frameskip
     # 8,000,000 frames = 1333 episodes if we count an episode as 6000 frames,
     # 8,000,000 frames = 1000 episodes if we count an episode as 8000 frames.
-    maximum_frames = 800000000
+    maximum_frames = 10000000
     if frame_skip is None:
         steps = maximum_frames
         eval_interval = 6000 * 50  # (approx.) every 50 episode (counts "1 episode = 6000 steps")
@@ -273,6 +283,7 @@ def dqn_family(
         agent_type=agent_type, gpu=gpu, gamma=gamma, replay_start_size=replay_start_size,
         target_update_interval=target_update_interval, clip_delta=clip_delta,
         batch_accumulator=batch_accumulator,
+        batch_size=batch_size
     )
 
     if load:
@@ -312,7 +323,7 @@ def get_agent(
         noisy_net_sigma, final_epsilon, final_exploration_frames, explorer_sample_func,
         lr, adam_eps,
         prioritized, steps, update_interval, replay_capacity, num_step_return,
-        agent_type, gpu, gamma, replay_start_size, target_update_interval, clip_delta, batch_accumulator
+        agent_type, gpu, gamma, replay_start_size, target_update_interval, clip_delta, batch_accumulator, batch_size
 ):
     # Q function
     q_func = parse_arch(arch, n_actions, n_input_channels=n_input_channels)
@@ -345,7 +356,7 @@ def get_agent(
     agent = Agent(
         q_func, opt, rbuf, gpu=gpu, gamma=gamma, explorer=explorer, replay_start_size=replay_start_size,
         target_update_interval=target_update_interval, clip_delta=clip_delta, update_interval=update_interval,
-        batch_accumulator=batch_accumulator, phi=phi)
+        batch_accumulator=batch_accumulator, phi=phi, minibatch_size=batch_size)  # mnibatch_size is 32 by default
 
     return agent
 
