@@ -1,0 +1,1 @@
+/users/frtim/Code_onlyremote/ma_minerl_vec/train.py --env MineRLObtainMASingleVectorObf-v0 --gpu 0 --outdir $tri_scratch_dir/runs_v2/out/assist_tessts --seed 6

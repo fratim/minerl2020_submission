@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (env_subm20_is3)" project-jdk-type="Python SDK" />
+  <component name="UnattendedHostPersistenceState">
+    <option name="openedFilesInfos">
+      <list>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/minerl_env/minerl/herobraine/env_specs/obtain_assist_specs.py" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="934" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/bash_assist_v1_2.sh" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="2523" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/minerl_env/minerl/herobraine/envs.py" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="966" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/bash_assist_v1_1.sh" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="6220" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/mod/dqn_family.py" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="734" />
+          <option name="fileUrl" value="file://$USER_HOME$/anaconda3/envs/env_subm20_is3/lib/python3.8/site-packages/wandb/util.py" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="2242" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/minerl_env/minerl/herobraine/wrappers/video_recording_wrapper.py" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="2598" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/train.py" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="410" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/pfrl/pfrl/utils/is_return_code_zero.py" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="251" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/pfrl/pfrl/experiments/prepare_output_dir.py" />
+        </OpenedFileInfo>
+      </list>
+    </option>
+  </component>
+</project>

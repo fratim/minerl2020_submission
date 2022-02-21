@@ -1,0 +1,1 @@
+train.py --env MineRLObtainDiamondDenseVectorObf-v0 --gpu 0

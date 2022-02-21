@@ -1,0 +1,1 @@
+/users/frtim/Code_remote/ma_minerl_vec/train.py --env MineRLTreechopVectorObf-v0 --gpu 0 --outdir $tri_scratch_dir/runs_v2/out/org_tree_vec_batchtest_small_v100_9 --seed 11 --batch-size 10000 --update-interval 50 --replay-start-size 10500

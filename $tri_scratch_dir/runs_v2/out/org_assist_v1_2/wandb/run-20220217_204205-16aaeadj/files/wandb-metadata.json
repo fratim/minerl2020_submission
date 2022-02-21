@@ -1,0 +1,27 @@
+{
+    "os": "Linux-3.10.0-1160.53.1.el7.x86_64-x86_64-with-glibc2.10",
+    "python": "3.8.5",
+    "heartbeatAt": "2022-02-17T20:42:20.380864",
+    "startedAt": "2022-02-17T20:42:05.953542",
+    "docker": null,
+    "gpu": "Quadro RTX 6000",
+    "gpu_count": 4,
+    "cpu_count": 64,
+    "cuda": null,
+    "args": [
+        "--env",
+        "MineRLObtainMASingleVectorObf-v0",
+        "--gpu",
+        "0",
+        "--outdir",
+        "$tri_scratch_dir/runs_v2/out/org_assist_v1_2",
+        "--seed",
+        "11"
+    ],
+    "state": "running",
+    "program": "/users/frtim/Code_remote/ma_minerl_vec/train.py",
+    "codePath": "train.py",
+    "host": "gnodeg2.triton.cluster",
+    "username": "frtim",
+    "executable": "/users/frtim/anaconda3/envs/env_subm20_is2/bin/python"
+}

@@ -1,0 +1,6 @@
+[submodule "pfrl"]
+	path = pfrl
+	url = https://github.com/fratim/pfrl.git
+[submodule "minerl_env"]
+	path = minerl_env
+	url = https://github.com/fratim/minerl.git
