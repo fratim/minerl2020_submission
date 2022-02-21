@@ -15,7 +15,6 @@ from minerl.herobraine.wrappers.assisst_agent_emulation_wrapper import AssistWra
 from gym.wrappers.time_limit import TimeLimit
 
 import time
-import wandb
 
 # local modules
 import sys
@@ -115,13 +114,21 @@ def main():
     # Iteration Offset (useful for restarting trainings)
     parser.add_argument('--iteration', type=int, default=0, help='#iteration to start at')
 
+    # whether current run is debug
+    parser.add_argument('--debug', action='store_true', default=False)
+
+
+
     args = parser.parse_args()
 
     runname = args.outdir.split("/")[-1]
     output_dir_base = copy.deepcopy(args.outdir)
 
     args.outdir = pfrl.experiments.prepare_output_dir(args, args.outdir)
-    wandb.init(project="vectorized", name=runname, entity="frtim", dir=output_dir_base, sync_tensorboard=True)
+
+    if not args.debug:
+        import wandb
+        wandb.init(project="vectorized", name=runname, entity="frtim", dir=output_dir_base, sync_tensorboard=True)
 
     log_format = '%(levelname)-8s - %(asctime)s - [%(name)s %(funcName)s %(lineno)d] %(message)s'
     logging.basicConfig(filename=os.path.join(args.outdir, 'log.txt'), format=log_format, level=args.logging_level)
