@@ -1,5 +1,5 @@
 # run: conda env create --file environment.yml
-name: docker_env_v4
+name: docker_env_v5
 dependencies:
 - python
 - pip
