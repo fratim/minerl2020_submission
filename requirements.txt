@@ -1,11 +1,12 @@
-crowdai_api
-minerl
+scipy
+scikit-learn
+pandas
+tqdm
+joblib
+pfrl
 coloredlogs
 matplotlib
-opencv-python==4.2.0.34
 pyro4
-torch
-torchvision
 
 # ours
 numpy

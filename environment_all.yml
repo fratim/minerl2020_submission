@@ -1,0 +1,17 @@
+# run: conda env create --file environment.yml
+name: docker_env_v4
+dependencies:
+- python
+- pip
+- numpy
+- pytorch
+- joblib
+- scikit-learn
+- tqdm
+- scipy
+- matplotlib
+- tensorboard
+- pip:
+  - minerl
+  - pfrl
+  - wandb

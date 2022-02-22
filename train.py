@@ -2,7 +2,7 @@
 import logging
 import os
 
-import aicrowd_helper
+#import aicrowd_helper
 from utility.parser import Parser
 
 import coloredlogs

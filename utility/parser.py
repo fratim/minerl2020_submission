@@ -8,42 +8,42 @@ import subprocess
 import time
 import glob
 
-import crowdai_api
+# import crowdai_api
 import uuid
 
 
-class AICrowdSubContractor:
-    def __init__(self):
-        self.debug = False
-        self.oracle_events = crowdai_api.events.CrowdAIEvents(with_oracle=True)
-
-    def handle_event(self, payload):
-        if self.debug:
-            print(payload)
-        if payload['state'] == 'FINISHED':
-            self.handle_success_event(payload)
-        elif payload['state'] == 'ERROR':
-            self.handle_error_event(payload)
-        else:
-            self.handle_info_event(payload)
-
-    def handle_info_event(self, payload):
-        self.oracle_events.register_event(
-            event_type=self.oracle_events.CROWDAI_EVENT_INFO,
-            payload=payload
-        )
-
-    def handle_success_event(self, payload):
-        self.oracle_events.register_event(
-            event_type=self.oracle_events.CROWDAI_EVENT_SUCCESS,
-            payload=payload
-        )
-
-    def handle_error_event(self, payload):
-        self.oracle_events.register_event(
-            event_type=self.oracle_events.CROWDAI_EVENT_ERROR,
-            payload=payload
-        )
+# class AICrowdSubContractor:
+#     def __init__(self):
+#         self.debug = False
+#         self.oracle_events = crowdai_api.events.CrowdAIEvents(with_oracle=True)
+#
+#     def handle_event(self, payload):
+#         if self.debug:
+#             print(payload)
+#         if payload['state'] == 'FINISHED':
+#             self.handle_success_event(payload)
+#         elif payload['state'] == 'ERROR':
+#             self.handle_error_event(payload)
+#         else:
+#             self.handle_info_event(payload)
+#
+#     def handle_info_event(self, payload):
+#         self.oracle_events.register_event(
+#             event_type=self.oracle_events.CROWDAI_EVENT_INFO,
+#             payload=payload
+#         )
+#
+#     def handle_success_event(self, payload):
+#         self.oracle_events.register_event(
+#             event_type=self.oracle_events.CROWDAI_EVENT_SUCCESS,
+#             payload=payload
+#         )
+#
+#     def handle_error_event(self, payload):
+#         self.oracle_events.register_event(
+#             event_type=self.oracle_events.CROWDAI_EVENT_ERROR,
+#             payload=payload
+#         )
 
 
 class Parser:
@@ -57,8 +57,8 @@ class Parser:
         self.submission_timeout = submission_timeout
         self.initial_poll_timeout = initial_poll_timeout
 
-        self.aicrowd_subcontractor = AICrowdSubContractor()
-        self.aicrowd_subcontractor.debug = debug
+        #self.aicrowd_subcontractor = AICrowdSubContractor()
+        #self.aicrowd_subcontractor.debug = debug
         self.start_time = time.time()
         self.current_state = {}
         self.finished = {}
